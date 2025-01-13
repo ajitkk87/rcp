@@ -10,6 +10,7 @@ import offshoregroundsampling.constants.Constants;
 import offshoregroundsampling.dialog.SampleDialog;
 import offshoregroundsampling.model.Sample;
 
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -31,21 +32,21 @@ import org.eclipse.swt.widgets.Table;
 
 public class SamplePart {
 
-	private static final String RECORD_MODIFIED_SUCCESSFULLY = "Record modified successfully";
-
-	private static final String NO_ROW_SELECTED = "No row selected!";
-
 	private TableViewer tableViewer;
 
 	@Inject
 	private MPart part;
 	
 	@Inject
-    private Shell shell; 
+    private Shell shell;
+	
+	@Inject
+	private IEclipseContext context;
+	
     
 	// Simulating an API call to fetch sample data
-	List<Sample> samples = new ArrayList<>();
-			
+	List<Sample> samples = new ArrayList<>();			
+
 	@PostConstruct
 	public void createComposite(Composite parent) {
 		createTableViewer(parent);
@@ -63,6 +64,11 @@ public class SamplePart {
 		part.setDirty(false);
 	}
  
+	public void addRefreshContext() {
+        // Store data in the context, useful to share data between parts
+        context.set(Constants.CONTEXT_SAMPLES, samples);
+    }
+	
 	public TableViewer createTableViewer(Composite parent) {
 		parent.setLayout(new GridLayout(1, false));
 	        
@@ -76,8 +82,9 @@ public class SamplePart {
 		// Set the content provider (which tells the viewer how to retrieve the data)
 		tableViewer.setContentProvider(new ArrayContentProvider());
 
+		samples = getSamplesFromBackend();
 		// Bind the data (the sample list from the backend)
-		tableViewer.setInput(getSamplesFromBackend());
+		tableViewer.setInput(samples);
 		
 		tableViewer.getTable().setHeaderVisible(true); // Shows headers
 		tableViewer.getTable().setLinesVisible(true);  // Enables grid lines
@@ -88,7 +95,7 @@ public class SamplePart {
 		 
 	    // Buttons for operations
         createButtonsForTableOperations(parent);
-		
+		addRefreshContext();
 		return tableViewer;
 	}
 
@@ -227,44 +234,6 @@ public class SamplePart {
 		return samples;
 	}
 	
-	/*
-    public void createPartControl(Composite parent) {
-        // Set up the layout for the composite
-        parent.setLayout(new FillLayout());
-
-        // Create a dataset for the chart
-        DefaultCategoryDataset dataset = createDataset();
-
-        // Create a chart using the dataset
-        JFreeChart chart = createChart(dataset);
-
-        // Create an SWT-AWT bridge to embed a Swing component (ChartPanel)
-        Composite chartComposite = new Composite(parent, SWT.EMBEDDED);
-        JPanel chartPanel = new ChartPanel(chart);
-        JFrame chartFrame = (JFrame) SWT_AWT.new_Frame(chartComposite);
-        chartFrame.getContentPane().add(chartPanel);
-        chartFrame.setSize(600, 400);  // Set chart size
-    }
-
-    private DefaultCategoryDataset createDataset() {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.addValue(1.0, "Series1", "Category1");
-        dataset.addValue(4.0, "Series1", "Category2");
-        dataset.addValue(3.0, "Series1", "Category3");
-        dataset.addValue(5.0, "Series1", "Category4");
-        return dataset;
-    }
-
-    private JFreeChart createChart(DefaultCategoryDataset dataset) {
-        return ChartFactory.createLineChart(
-                "Sample Chart",     // Chart title
-                "Category",         // X-axis Label
-                "Value",            // Y-axis Label
-                dataset            // Dataset        
-                );
-    }
-    */
-	
     private void openAddSampleDialog(Composite parent) {
         // Implement a dialog to add a sample
     	SampleDialog sampleDialog = new SampleDialog(shell);
@@ -274,6 +243,7 @@ public class SamplePart {
         }
         tableViewer.setInput(samples);
         tableViewer.refresh();
+        addRefreshContext();
     }
 
     private void openEditSampleDialog() {
@@ -285,14 +255,15 @@ public class SamplePart {
             SampleDialog sampleDialog = new SampleDialog(shell, selectedSample);
             if (sampleDialog.open() == SampleDialog.OK) {
             	 MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
-                 messageBox.setMessage(RECORD_MODIFIED_SUCCESSFULLY);
+                 messageBox.setMessage(Constants.RECORD_MODIFIED_SUCCESSFULLY);
                  messageBox.open();
             }
             tableViewer.refresh(); // Refresh the table after editing
+            addRefreshContext();
         } else {
             // No selection
             MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
-            messageBox.setMessage(NO_ROW_SELECTED);
+            messageBox.setMessage(Constants.NO_ROW_SELECTED);
             messageBox.open();
         }
     }
@@ -304,10 +275,11 @@ public class SamplePart {
             Sample selectedSample = (Sample) selection.getFirstElement();
             samples.remove(selectedSample);
             tableViewer.refresh(); // Refresh the table after editing
+            addRefreshContext();
         } else {
             // No selection
             MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
-            messageBox.setMessage(NO_ROW_SELECTED);
+            messageBox.setMessage(Constants.NO_ROW_SELECTED);
             messageBox.open();
         }
     }

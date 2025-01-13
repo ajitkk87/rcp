@@ -19,4 +19,10 @@ public class Constants {
 	public static final String EDIT_SAMPLE = "Edit Sample";
 	
 	public static final String DELETE_SAMPLE = "Delete Sample";
+	
+	public static final String CONTEXT_SAMPLES = "samples";
+
+	public static final String RECORD_MODIFIED_SUCCESSFULLY = "Record modified successfully";
+
+	public static final String NO_ROW_SELECTED = "No row selected!";
 }

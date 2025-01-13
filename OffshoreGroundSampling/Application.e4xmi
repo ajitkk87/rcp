@@ -5,6 +5,9 @@
       <children xsi:type="basic:PartStack" xmi:id="_lwTB8NGyEe-IOekHj8oB3g" elementId="offshoregroundsampling.partstack.sample">
         <children xsi:type="basic:Part" xmi:id="_zLsQENGyEe-IOekHj8oB3g" elementId="offshoregroundsampling.part.sample" contributionURI="bundleclass://OffshoreGroundSampling/offshoregroundsampling.parts.SamplePart" label="Sample Part" iconURI="platform:/plugin/OffshoreGroundSampling/icons/home.png"/>
       </children>
+      <children xsi:type="basic:PartStack" xmi:id="_GJ_PoNG_Ee-_FfCqaNkqfg" elementId="offshoregroundsampling.partstack.samplechart">
+        <children xsi:type="basic:Part" xmi:id="_I5F6MNG_Ee-_FfCqaNkqfg" elementId="offshoregroundsampling.part.samplechart" contributionURI="bundleclass://OffshoreGroundSampling/offshoregroundsampling.parts.SamplePartChart" label="Sample Chart Part" iconURI="platform:/plugin/OffshoreGroundSampling/icons/home.png"/>
+      </children>
     </children>
   </children>
   <rootContext xmi:id="_c3AF2cjYEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">

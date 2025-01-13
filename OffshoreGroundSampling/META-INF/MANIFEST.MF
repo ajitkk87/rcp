@@ -4,6 +4,8 @@ Bundle-Name: OffshoreGroundSampling
 Bundle-SymbolicName: OffshoreGroundSampling;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: offshoregroundsampling.Activator
+Bundle-ClassPath: lib/jfreechart-1.5.3.jar,
+ .
 Require-Bundle: org.eclipse.swt,
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.jface,
