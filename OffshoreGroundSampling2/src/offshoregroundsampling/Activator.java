@@ -1,4 +1,4 @@
-package offshoregroundsampling2;
+package offshoregroundsampling;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
