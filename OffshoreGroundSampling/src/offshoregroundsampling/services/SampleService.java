@@ -3,39 +3,63 @@ package offshoregroundsampling.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.web.bind.annotation.PathVariable;
 
 import offshoregroundsampling.model.Sample;
 
 public class SampleService {
 
-	// This method would interact with the backend to fetch the sample data
-	public List<Sample> getSamplesFromBackend() {
-
-		List<Sample> samples = new ArrayList<>();
-		// Example of adding a sample manually
+	// Simulating an API call to fetch sample data
+	List<Sample> samples = new ArrayList<>();
+		
+	public SampleService() {
 		samples.add(new Sample("S001", "Location1", new Date(), 20.5, 35.0, 150.0));
 		samples.add(new Sample("S002", "Location2", new Date(), 19.5, 30.0, 140.0));
 		samples.add(new Sample("S003", "Location3", new Date(), 20.5, 35.0, 150.0));
 		samples.add(new Sample("S004", "Location4", new Date(), 19.5, 30.0, 140.0));
 		samples.add(new Sample("S005", "Location5", new Date(), 20.5, 35.0, 150.0));
 		samples.add(new Sample("S006", "Location6", new Date(), 19.5, 30.0, 140.0));
-
-		/*
-		 * RestTemplate restTemplate = new RestTemplate();
-		 * 
-		 * // Example: Fetching all samples ResponseEntity<List<Sample>> response =
-		 * restTemplate.exchange( "http://your-backend-url/api/samples", HttpMethod.GET,
-		 * null, new ParameterizedTypeReference<List<Sample>>() {});
-		 * 
-		 * List<Sample> samples = response.getBody();
-		 */
-
-		return samples;
 	}
 	
 	// This method would interact with the backend to save the sample data
 	public List<Sample> save(List<Sample> samples) {
-			return samples;
+		return samples;
+	}
+
+	public List<Sample> getAllSamples() {
+		return samples;
+	}
+
+	public Sample createSample(Sample sample) {
+		samples.add(sample);
+		return sample;
+	}
+
+	public Sample updateSample(Sample sample) {
+		return sample;
+	}
+
+	public void deleteSample(Sample sample) {
+		samples.remove(sample);
+	}
+	
+	public Sample findSample(String id) {
+		Optional<Sample> result = samples.stream()
+                .filter(s -> s.getSampleId().equals(id))
+                .findFirst();
+
+        return result.get();
+	}
+
+	public Map<String, Double> calculateStatistics() {
+		return null;
+	}
+
+	public List<String> getAllLocations() {
+		return null;
 	}
 
 }

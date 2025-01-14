@@ -67,7 +67,7 @@ public class SamplePartChart {
 	private XYSeriesCollection loadAndRefreshDataset() {
 		XYSeries series = new XYSeries("Unit Weight vs Water Content");
         
-		List<Sample> samples = sampleService.getSamplesFromBackend();; 
+		List<Sample> samples = sampleService.getAllSamples(); 
 		
         samples.forEach(sample -> {
         	series.add(sample.getWaterContent(), sample.getUnitWeight());

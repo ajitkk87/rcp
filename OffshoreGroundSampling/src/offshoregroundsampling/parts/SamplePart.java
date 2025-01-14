@@ -1,8 +1,5 @@
 package offshoregroundsampling.parts;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import offshoregroundsampling.constants.Constants;
@@ -39,10 +36,7 @@ public class SamplePart {
 	@Inject
     private Shell shell;
 	
-	private SampleService sampleService = new SampleService();
-	
-	// Simulating an API call to fetch sample data
-	List<Sample> samples = new ArrayList<>();			
+	private SampleService sampleService = new SampleService();			
 
 	@PostConstruct
 	public void createComposite(Composite parent) {
@@ -74,9 +68,8 @@ public class SamplePart {
 		// Set the content provider (which tells the viewer how to retrieve the data)
 		tableViewer.setContentProvider(new ArrayContentProvider());
 
-		samples = sampleService.getSamplesFromBackend();
 		// Bind the data (the sample list from the backend)
-		tableViewer.setInput(samples);
+		tableViewer.setInput(sampleService.getAllSamples());
 		
 		tableViewer.getTable().setHeaderVisible(true); // Shows headers
 		tableViewer.getTable().setLinesVisible(true);  // Enables grid lines
@@ -205,9 +198,9 @@ public class SamplePart {
     	SampleDialog sampleDialog = new SampleDialog(shell);
         if (sampleDialog.open() == SampleDialog.OK) {
             Sample sample = sampleDialog.getSample();
-            samples.add(sample);
+            sampleService.createSample(sample);   
         }
-        tableViewer.setInput(samples);
+        tableViewer.setInput(sampleService.getAllSamples());
         tableViewer.refresh();
     }
 
@@ -236,8 +229,7 @@ public class SamplePart {
     	IStructuredSelection selection = tableViewer.getStructuredSelection();
         if (!selection.isEmpty()) {
             // Get the selected Sample object
-            Sample selectedSample = (Sample) selection.getFirstElement();
-            samples.remove(selectedSample);
+            sampleService.deleteSample((Sample) selection.getFirstElement());
             tableViewer.refresh(); // Refresh the table after editing
         } else {
             // No selection
