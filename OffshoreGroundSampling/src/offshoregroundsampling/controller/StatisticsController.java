@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.*;
 
 import offshoregroundsampling.services.SampleService;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/statistics")
 public class StatisticsController {
@@ -14,7 +12,7 @@ public class StatisticsController {
     private SampleService sampleService;
 
     @GetMapping
-    public Map<String, Double> getStatistics() {
+    public double getStatistics() {
         return sampleService.calculateStatistics();
     }
 }
