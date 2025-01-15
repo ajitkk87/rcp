@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 
 import offshoregroundsampling.model.Sample;
 
+/**
+ * This class is service layer for samples. 
+ */
 public class SampleService {
 
 	// Simulating an API call to fetch sample data
@@ -49,7 +52,7 @@ public class SampleService {
 		return result.get();
 	}
 
-	public double calculateStatistics() {
+	public double calculateAverageWaterContent() {
 		return samples.stream().mapToDouble(Sample::getWaterContent).average().getAsDouble();
 	}
 

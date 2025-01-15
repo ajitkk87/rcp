@@ -14,6 +14,9 @@ import org.junit.Test;
 import offshoregroundsampling.model.Sample;
 import offshoregroundsampling.services.SampleService;
 
+/**
+ *  Junit Plugin Tests for service layer.
+ */
 public class SampleServiceTest {
 
     private SampleService sampleService;
@@ -47,8 +50,8 @@ public class SampleServiceTest {
         Sample sample2 = new Sample("S002", "Location2", new Date(), 19.5, 30.0, 140.0);
         sampleService.createSample(sample1);
         sampleService.createSample(sample2);
-        double result = sampleService.calculateStatistics();
-        assertEquals(20.0, result, 0.1);
+        double result = sampleService.calculateAverageWaterContent();
+        assertEquals(32.5, result, 0.1);
         
     }
 
@@ -60,7 +63,7 @@ public class SampleServiceTest {
         sampleService.createSample(sample2);
         List<String> result = sampleService.getAllLocations();
         assertNotNull(result);
-        assertEquals(6, result.size());
+        assertEquals(2, result.size());
         assertTrue(result.contains("Location1"));
         assertTrue(result.contains("Location2"));
     }

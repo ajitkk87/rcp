@@ -7,14 +7,17 @@ import offshoregroundsampling.services.SampleService;
 
 import java.util.List;
 
+/**
+ * This controller is responsible for providing location specific details.
+ */
 @RestController
 @RequestMapping("/api/locations")
 public class LocationController {
-    @Autowired
-    private SampleService sampleService;
+	@Autowired
+	private SampleService sampleService;
 
-    @GetMapping
-    public List<String> getAllLocations() {
-        return sampleService.getAllLocations();
-    }
+	@GetMapping
+	public List<String> getAllLocations() {
+		return sampleService.getAllLocations();
+	}
 }

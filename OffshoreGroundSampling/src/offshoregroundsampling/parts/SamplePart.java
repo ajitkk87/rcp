@@ -26,6 +26,11 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 
+/**
+ * This part contains logic for UI to display samples table and button for CRUD
+ * operations.
+ * 
+ */
 public class SamplePart {
 
 	private TableViewer tableViewer;
@@ -44,17 +49,11 @@ public class SamplePart {
 		parent.getShell().setMaximized(true); // To open window in maximized mode
 	}
 
-
-	@Focus
-	public void setFocus() {
-		tableViewer.getTable().setFocus();
-	}
-
-	@Persist
-	public void save() {
-		part.setDirty(false);
-	}
- 
+	/**
+	 * This method creates sample data table.
+	 * @param parent
+	 * @return
+	 */
 	public TableViewer createTableViewer(Composite parent) {
 		parent.setLayout(new GridLayout(1, false));
 	        
@@ -84,35 +83,35 @@ public class SamplePart {
 	}
 
 
+	/**
+	 * This method contains all the buttons related to CRUD operations for samples.
+	 * @param parent
+	 */
 	private void createButtonsForTableOperations(Composite parent) {
 		Composite buttonPanel = new Composite(parent, SWT.NONE);
-        buttonPanel.setLayout(new GridLayout(3, true));
-        buttonPanel.setSize(600, 30);
-        buttonPanel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		buttonPanel.setLayout(new GridLayout(3, true));
+		buttonPanel.setSize(600, 30);
+		buttonPanel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-        Button addButton = getButton(buttonPanel, Constants.ADD_SAMPLE);
-        addButton.addListener(SWT.Selection, e -> openAddSampleDialog(parent));
+		Button addButton = getButton(buttonPanel, Constants.ADD_SAMPLE);
+		addButton.addListener(SWT.Selection, e -> openAddSampleDialog(parent));
 
-        Button editButton = getButton(buttonPanel, Constants.EDIT_SAMPLE);
-        editButton.addListener(SWT.Selection, e -> openEditSampleDialog());
-     
-        // Button click listener to show the selected name
-        editButton.addListener(SWT.Selection, e -> {
-            // Get the selection
-        });
+		Button editButton = getButton(buttonPanel, Constants.EDIT_SAMPLE);
+		editButton.addListener(SWT.Selection, e -> openEditSampleDialog());
 
-        Button deleteButton = getButton(buttonPanel, Constants.DELETE_SAMPLE);
-        deleteButton.addListener(SWT.Selection, e -> deleteSample());
+		// Button click listener to show the selected name
+		editButton.addListener(SWT.Selection, e -> {
+			// Get the selection
+		});
+
+		Button deleteButton = getButton(buttonPanel, Constants.DELETE_SAMPLE);
+		deleteButton.addListener(SWT.Selection, e -> deleteSample());
 	}
 
-
-	private Button getButton(Composite buttonPanel, String labelName) {
-		Button addButton = new Button(buttonPanel, SWT.PUSH);
-        addButton.setText(labelName);
-        addButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		return addButton;
-	}
-
+	/**
+	 * This method creates columns for Table with sample data.
+	 * @param table
+	 */
 	private void createColumns(Table table) {		
 		
 		TableViewerColumn sampleIdColumn = getTableViewerColumn(Constants.SAMPLE_ID);
@@ -183,16 +182,9 @@ public class SamplePart {
         });
 	}
 
-
-	private TableViewerColumn getTableViewerColumn(String labelName) {
-		// Column for Sample ID
-        TableViewerColumn sampleIdColumn = new TableViewerColumn(tableViewer, SWT.NONE);
-        sampleIdColumn.getColumn().setText(labelName);
-        sampleIdColumn.getColumn().setWidth(100);
-        sampleIdColumn.getColumn().setResizable(true);
-		return sampleIdColumn;
-	}
-	
+	/**
+     * This is create event handler method for UI.
+     */
     private void openAddSampleDialog(Composite parent) {
         // Implement a dialog to add a sample
     	SampleDialog sampleDialog = new SampleDialog(shell);
@@ -204,6 +196,9 @@ public class SamplePart {
         tableViewer.refresh();
     }
 
+    /**
+     * This is edit event handler method for UI.
+     */
     private void openEditSampleDialog() {
         // Implement editing functionality
     	IStructuredSelection selection = tableViewer.getStructuredSelection();
@@ -225,6 +220,9 @@ public class SamplePart {
         }
     }
 
+    /**
+     * This is delete event handler method for UI.
+     */
     private void deleteSample() {
     	IStructuredSelection selection = tableViewer.getStructuredSelection();
         if (!selection.isEmpty()) {
@@ -238,5 +236,45 @@ public class SamplePart {
             messageBox.open();
         }
     }
+    
+	/**
+	 * Utility method to get button for button panel.
+	 * 
+	 * @param buttonPanel
+	 * @param labelName
+	 * @return
+	 */
+	private Button getButton(Composite buttonPanel, String labelName) {
+		Button button = new Button(buttonPanel, SWT.PUSH);
+        button.setText(labelName);
+        button.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		return button;
+	}
+
+	/**
+	 *  Utility method for creating table viewer column.
+	 *  
+	 * @param labelName
+	 * @return
+	 */
+	private TableViewerColumn getTableViewerColumn(String labelName) {
+        TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+        tableViewerColumn.getColumn().setText(labelName);
+        tableViewerColumn.getColumn().setWidth(100);
+        tableViewerColumn.getColumn().setResizable(true);
+		return tableViewerColumn;
+	}
+	
+	@Focus
+	public void setFocus() {
+		tableViewer.getTable().setFocus();
+	}
+
+	@Persist
+	public void save() {
+		part.setDirty(false);
+	}
+ 
+
 
 }

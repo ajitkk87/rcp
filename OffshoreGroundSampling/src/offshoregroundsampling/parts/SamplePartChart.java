@@ -18,6 +18,9 @@ import jakarta.inject.Inject;
 import offshoregroundsampling.model.Sample;
 import offshoregroundsampling.services.SampleService;
 
+/**
+ * This part contains logic for graph creation for unit weight and water content.
+ */
 public class SamplePartChart {
 	
 	private SampleService sampleService = new SampleService();
