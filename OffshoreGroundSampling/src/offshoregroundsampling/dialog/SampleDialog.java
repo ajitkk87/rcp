@@ -19,116 +19,125 @@ import offshoregroundsampling.model.Sample;
 
 import org.eclipse.swt.widgets.Label;
 
+/**
+ *  This class contains logic for popup/dialog for editing and creating a new sample.
+ *  It also validates the values.
+ */
 public class SampleDialog extends Dialog {
+
 	private Text sampleIdField;
-    private Text locationField;
-    private Text dateField;
-    private Text unitWeightField;
-    private Text waterContentField;
-    private Text shearStrengthField;
-    private Sample sample;
-    
-    public SampleDialog(Shell parentShell) {
-        super(parentShell);
-        this.sample= null;       
-    }
-    
-    public SampleDialog(Shell parentShell, Sample sample) {
-        super(parentShell);
-        this.sample = sample;   
-    }
+	private Text locationField;
+	private Text dateField;
+	private Text unitWeightField;
+	private Text waterContentField;
+	private Text shearStrengthField;
+	private Sample sample;
 
+	public SampleDialog(Shell parentShell) {
+		super(parentShell);
+		this.sample = null;
+	}
 
-    @Override
-    protected Control createDialogArea(Composite parent) {
-        Composite container = (Composite) super.createDialogArea(parent);
-        container.setLayout(new GridLayout(2, false));
+	public SampleDialog(Shell parentShell, Sample sample) {
+		super(parentShell);
+		this.sample = sample;
+	}
 
-        new Label(container, SWT.NONE).setText(Constants.SAMPLE_ID);
-        sampleIdField = new Text(container, SWT.BORDER);
-        sampleIdField.setLayoutData(getLayoutDataWithWidth(200));
-        
-        new Label(container, SWT.NONE).setText(Constants.LOCATION);
-        locationField = new Text(container, SWT.BORDER);
-        locationField.setLayoutData(getLayoutDataWithWidth(200));
+	/**
+	 * Dialog for sample creation and modifications.
+	 */
+	@Override
+	protected Control createDialogArea(Composite parent) {
+		Composite container = (Composite) super.createDialogArea(parent);
+		container.setLayout(new GridLayout(2, false));
 
-        new Label(container, SWT.NONE).setText(Constants.DATE_COLLECTED + " (DD/MM/YYYY)");
-        dateField = new Text(container, SWT.BORDER);
-        dateField.setLayoutData(getLayoutDataWithWidth(200));
+		new Label(container, SWT.NONE).setText(Constants.SAMPLE_ID);
+		sampleIdField = new Text(container, SWT.BORDER);
+		sampleIdField.setLayoutData(getLayoutDataWithWidth(200));
 
-        new Label(container, SWT.NONE).setText(Constants.UNIT_WEIGHT + " (kN/m3):");
-        unitWeightField = new Text(container, SWT.BORDER);
-        unitWeightField.setLayoutData(getLayoutDataWithWidth(200));
+		new Label(container, SWT.NONE).setText(Constants.LOCATION);
+		locationField = new Text(container, SWT.BORDER);
+		locationField.setLayoutData(getLayoutDataWithWidth(200));
 
-        new Label(container, SWT.NONE).setText(Constants.WATER_CONTENT + " (%):");
-        waterContentField = new Text(container, SWT.BORDER);
-        waterContentField.setLayoutData(getLayoutDataWithWidth(200));
+		new Label(container, SWT.NONE).setText(Constants.DATE_COLLECTED + " (DD/MM/YYYY)");
+		dateField = new Text(container, SWT.BORDER);
+		dateField.setLayoutData(getLayoutDataWithWidth(200));
 
-        new Label(container, SWT.NONE).setText(Constants.SHEAR_STRENGTH + " (kPa):");
-        shearStrengthField = new Text(container, SWT.BORDER);
-        shearStrengthField.setLayoutData(getLayoutDataWithWidth(200));
+		new Label(container, SWT.NONE).setText(Constants.UNIT_WEIGHT + " (kN/m3):");
+		unitWeightField = new Text(container, SWT.BORDER);
+		unitWeightField.setLayoutData(getLayoutDataWithWidth(200));
+
+		new Label(container, SWT.NONE).setText(Constants.WATER_CONTENT + " (%):");
+		waterContentField = new Text(container, SWT.BORDER);
+		waterContentField.setLayoutData(getLayoutDataWithWidth(200));
+
+		new Label(container, SWT.NONE).setText(Constants.SHEAR_STRENGTH + " (kPa):");
+		shearStrengthField = new Text(container, SWT.BORDER);
+		shearStrengthField.setLayoutData(getLayoutDataWithWidth(200));
 
 		if (sample != null) {
 			setSampleToFields();
 		}
-        return container;
-    }
+		return container;
+	}
 
-	
-     private boolean validateFields() {
-        // Basic validation logic for fields
-        try {
-            double unitWeight = Double.parseDouble(unitWeightField.getText());
-            double waterContent = Double.parseDouble(waterContentField.getText());
-            double shearStrength = Double.parseDouble(shearStrengthField.getText());
+	/**
+	 * Basic validation logic for fields
+	 * @return
+	 */
+	private boolean validateFields() {
+		try {
+			double unitWeight = Double.parseDouble(unitWeightField.getText());
+			double waterContent = Double.parseDouble(waterContentField.getText());
+			double shearStrength = Double.parseDouble(shearStrengthField.getText());
 
-            if (waterContent <= 5 || waterContent >= 150) {
-                showError("Water content should be between 5% and 150%");
-                return false;
-            }
-            if (unitWeight <= 12 || unitWeight >= 26) {
-                showError("Unit weight should be between 12 and 26 kN/m3");
-                return false;
-            }
-            if (shearStrength <= 2 || shearStrength >= 1000) {
-                showError("Shear strength should be between 2 and 1000 kPa");
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            showError("Please enter valid numeric values.");
-            return false;
-        }
-        
-        try {
-        	 getDateFromString(dateField.getText());
-        } catch (Throwable e) {
-            showError("Invalid Date Format");
-            return false;
-        }
-        return true;
-    }
-    
+			if (waterContent <= 5 || waterContent >= 150) {
+				showError(Constants.WATER_CONTENT_SHOULD_BE_BETWEEN_5_AND_150);
+				return false;
+			}
+			if (unitWeight <= 12 || unitWeight >= 26) {
+				showError(Constants.UNIT_WEIGHT_SHOULD_BE_BETWEEN_12_AND_26_K_N_M3);
+				return false;
+			}
+			if (shearStrength <= 2 || shearStrength >= 1000) {
+				showError(Constants.SHEAR_STRENGTH_SHOULD_BE_BETWEEN_2_AND_1000_K_PA);
+				return false;
+			}
+		} catch (NumberFormatException e) {
+			showError(Constants.ENTER_VALID_NUMERIC_VALUES);
+			return false;
+		}
+
+		try {
+			getDateFromString(dateField.getText());
+		} catch (Throwable e) {
+			showError(Constants.INVALID_DATE_FORMAT);
+			return false;
+		}
+		return true;
+	}
+
 	private GridData getLayoutDataWithWidth(int width) {
 		GridData textLayoutData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-        textLayoutData.widthHint = 400; // Set the desired width
+		textLayoutData.widthHint = 400; // Set the desired width
 		return textLayoutData;
 	}
 
-    @Override
-    protected void okPressed() {
-        // Validate the fields
-        if (!validateFields()) {
-            return;
-        }
+	@Override
+	protected void okPressed() {
+		// Validate the fields
+		if (!validateFields()) {
+			return;
+		}
 
-        // If valid, create a new Sample object and return it
-         sample = sample != null ? sample : new Sample();
-         getFieldsToSample();
-        // Save to backend or update local list
-        super.okPressed();
-    }
+		// If valid, create a new Sample object and return it
+		sample = sample != null ? sample : new Sample();
+		getFieldsToSample();
+		// Save to backend or update local list
+		super.okPressed();
+	}
 
-    private void setSampleToFields() {
+	private void setSampleToFields() {
 		sampleIdField.setText(sample.getSampleId());
 		locationField.setText(sample.getLocation());
 		dateField.setText(getDateString(sample.getDateCollected()));
@@ -145,32 +154,27 @@ public class SampleDialog extends Dialog {
 		String formattedDate = localDate.format(formatter);
 		return formattedDate;
 	}
-    
-	
+
 	private void getFieldsToSample() {
-		sample.setSampleId(sampleIdField.getText());	 
-         sample.setLocation(locationField.getText());
-         sample.setDateCollected(getDateFromString(dateField.getText()));
-         sample.setUnitWeight(Double.parseDouble(unitWeightField.getText()));
-         sample.setWaterContent(Double.parseDouble(waterContentField.getText()));				 
-         sample.setShearStrength(Double.parseDouble(shearStrengthField.getText()));
+		sample.setSampleId(sampleIdField.getText());
+		sample.setLocation(locationField.getText());
+		sample.setDateCollected(getDateFromString(dateField.getText()));
+		sample.setUnitWeight(Double.parseDouble(unitWeightField.getText()));
+		sample.setWaterContent(Double.parseDouble(waterContentField.getText()));
+		sample.setShearStrength(Double.parseDouble(shearStrengthField.getText()));
 	}
 
 	private Date getDateFromString(String date) {
-		return Date.from(
-				 LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-				.atStartOfDay().atZone(java.time.ZoneId.systemDefault())
-		        .toInstant()
-		        );
+		return Date.from(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay()
+				.atZone(java.time.ZoneId.systemDefault()).toInstant());
 	}
 
+	private void showError(String message) {
+		MessageDialog.openError(getShell(), "Validation Error", message);
+	}
 
-    private void showError(String message) {
-        MessageDialog.openError(getShell(), "Validation Error", message);
-    }
-    
-    public Sample getSample() {
-        return sample;
-    }
-    
+	public Sample getSample() {
+		return sample;
+	}
+
 }

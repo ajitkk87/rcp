@@ -15,14 +15,25 @@ public class Constants {
 	public static final String SAMPLE_ID = "Sample ID";
 
 	public static final String ADD_SAMPLE = "Add Sample";
-	
+
 	public static final String EDIT_SAMPLE = "Edit Sample";
-	
+
 	public static final String DELETE_SAMPLE = "Delete Sample";
-	
+
 	public static final String CONTEXT_SAMPLES = "samples";
 
 	public static final String RECORD_MODIFIED_SUCCESSFULLY = "Record modified successfully";
 
 	public static final String NO_ROW_SELECTED = "No row selected!";
+
+	public static final String INVALID_DATE_FORMAT = "Invalid Date Format";
+	
+	public static final String ENTER_VALID_NUMERIC_VALUES = "Please enter valid numeric values.";
+	
+	public static final String SHEAR_STRENGTH_SHOULD_BE_BETWEEN_2_AND_1000_K_PA = "Shear strength should be between 2 and 1000 kPa";
+	
+	public static final String UNIT_WEIGHT_SHOULD_BE_BETWEEN_12_AND_26_K_N_M3 = "Unit weight should be between 12 and 26 kN/m3";
+	
+	public static final String WATER_CONTENT_SHOULD_BE_BETWEEN_5_AND_150 = "Water content should be between 5% and 150%";
+
 }
