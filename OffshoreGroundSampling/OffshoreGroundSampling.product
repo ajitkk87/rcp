@@ -3,7 +3,6 @@
 
 <product name="OffshoreGroundSampling" id="OffshoreGroundSampling.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="1.0.0.qualifier" type="mixed" includeLaunchers="true" autoIncludeRequirements="true">
 
-
    <configIni use="default">
    </configIni>
 
@@ -15,7 +14,6 @@
    </launcherArgs>
 
    <windowImages/>
-
 
    <plugins>
       <plugin id="OffshoreGroundSampling"/>

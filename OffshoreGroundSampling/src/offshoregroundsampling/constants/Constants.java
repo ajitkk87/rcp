@@ -36,4 +36,11 @@ public class Constants {
 	
 	public static final String WATER_CONTENT_SHOULD_BE_BETWEEN_5_AND_150 = "Water content should be between 5% and 150%";
 
+    public static final String H2_DB_DRIVER = "org.h2.Driver";
+    
+	public static final String H2_DB_JDBC_URL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1"; // Modify as needed
+	
+    public static final String H2_DB_USER = "sa";
+    
+    public static final String H2_DB_PASSWORD = "";
 }
