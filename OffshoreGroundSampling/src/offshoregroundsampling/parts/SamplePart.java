@@ -7,6 +7,7 @@ import offshoregroundsampling.dialog.SampleDialog;
 import offshoregroundsampling.model.Sample;
 import offshoregroundsampling.services.SampleService;
 
+import java.text.SimpleDateFormat;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -41,7 +42,9 @@ public class SamplePart {
 	@Inject
     private Shell shell;
 	
-	private SampleService sampleService = new SampleService();			
+	private SampleService sampleService = new SampleService();		
+	
+	SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_COLLECTED_DATE_FORMAT);
 
 	@PostConstruct
 	public void createComposite(Composite parent) {
@@ -136,7 +139,7 @@ public class SamplePart {
         dateCollectedColumn.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(Object element) {
-                return String.valueOf(((Sample) element).getDateCollected());
+                return formatter.format(((Sample) element).getDateCollected());
             }
         });
         

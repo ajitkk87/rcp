@@ -43,4 +43,8 @@ public class Constants {
     public static final String H2_DB_USER = "sa";
     
     public static final String H2_DB_PASSWORD = "";
+    
+	public static final String DATE_COLLECTED_DATE_FORMAT = "dd/MM/yyyy";
+	
+	public static final String VALIDATION_ERROR = "Validation Error";
 }

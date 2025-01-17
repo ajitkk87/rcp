@@ -59,7 +59,8 @@ public class SampleDialog extends Dialog {
 		locationField = new Text(container, SWT.BORDER);
 		locationField.setLayoutData(getLayoutDataWithWidth(200));
 
-		new Label(container, SWT.NONE).setText(Constants.DATE_COLLECTED + " (DD/MM/YYYY)");
+		new Label(container, SWT.NONE)
+				.setText(Constants.DATE_COLLECTED + " (" + Constants.DATE_COLLECTED_DATE_FORMAT.toUpperCase() + ")");
 		dateField = new Text(container, SWT.BORDER);
 		dateField.setLayoutData(getLayoutDataWithWidth(200));
 
@@ -149,7 +150,7 @@ public class SampleDialog extends Dialog {
 	private String getDateString(Date date) {
 		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		// Define the date format
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATE_COLLECTED_DATE_FORMAT);
 		// Format the LocalDate
 		String formattedDate = localDate.format(formatter);
 		return formattedDate;
@@ -165,12 +166,12 @@ public class SampleDialog extends Dialog {
 	}
 
 	private Date getDateFromString(String date) {
-		return Date.from(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay()
-				.atZone(java.time.ZoneId.systemDefault()).toInstant());
+		return Date.from(LocalDate.parse(date, DateTimeFormatter.ofPattern(Constants.DATE_COLLECTED_DATE_FORMAT))
+				.atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant());
 	}
 
 	private void showError(String message) {
-		MessageDialog.openError(getShell(), "Validation Error", message);
+		MessageDialog.openError(getShell(), Constants.VALIDATION_ERROR, message);
 	}
 
 	public Sample getSample() {

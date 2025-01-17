@@ -1,9 +1,24 @@
 package offshoregroundsampling.parts;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.swing.JPanel;
+
+import org.eclipse.e4.ui.model.application.ui.MElementContainer;
+import org.eclipse.e4.ui.model.application.ui.MUIElement;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.model.application.ui.basic.MPartSashContainer;
+import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
+import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.jfree.chart.ChartFactory;
@@ -24,30 +39,51 @@ import offshoregroundsampling.services.SampleService;
 public class SamplePartChart {
 	
 	private SampleService sampleService = new SampleService();
+		
+	@Inject
+	private MPart part;
 	
     @Inject
     public SamplePartChart() {}
 
     @PostConstruct
     public void createControls(Composite parent) {
-        // Set SWT layout
+        
+    	AtomicInteger windowCorrected = new AtomicInteger(0);
+    	// Set SWT layout
         parent.setLayout(new FillLayout());
  
         // Create the AWT Frame for embedding JFreeChart
         Composite awtFrame = new Composite(parent, SWT.EMBEDDED);
         java.awt.Frame frame = SWT_AWT.new_Frame(awtFrame);
-
         // Create the chart and embed it in the AWT frame
         JFreeChart chart = createChart();
         ChartPanel chartPanel = new ChartPanel(chart);
-        frame.add(chartPanel);
         
+        // Set BorderLayout for the container
+        JPanel container = new JPanel(new BorderLayout());
+        
+        // Add the ChartPanel to the CENTER of the container
+        container.add(chartPanel, BorderLayout.CENTER);
+        frame.add(container);
+   
+        MElementContainer<MUIElement> partStack = part.getParent().getParent();
+     
+        //Refresh the graph for new data
         javax.swing.Timer timer = new javax.swing.Timer(1000, e -> {
             loadAndRefreshDataset(); // Update dataset
             chartPanel.revalidate();
             chartPanel.repaint();
+            
+            //Logic to fit chart in map
+            if(windowCorrected.incrementAndGet() < 2) {
+             //Set the "Maximized" tag on the part stack
+              partStack.getChildren().get(1).getTags().add("Maximized");
+              partStack.getChildren().get(1).getTags().remove("Maximized");
+            }
         });
         timer.start();
+
     }
    
 
@@ -58,7 +94,7 @@ public class SamplePartChart {
             "Dependency between Unit Weight and Water Content", // Title
             "Water Content (%)",                               // X-Axis Label
             "Unit Weight (kN/m³)",                             // Y-Axis Label
-            loadAndRefreshDataset(),                                           // Dataset
+            loadAndRefreshDataset(),                           // Dataset
             PlotOrientation.VERTICAL,                         // Orientation
             true,                                              // Show legend
             true,                                              // Use tooltips

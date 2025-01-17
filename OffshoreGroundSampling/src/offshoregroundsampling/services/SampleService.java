@@ -12,8 +12,6 @@ import offshoregroundsampling.model.Sample;
  */
 public class SampleService {
 
-	// Simulating an API call to fetch sample data
-	//List<Sample> samples = new ArrayList<>();
 	SampleDAO sampleDAO = new SampleDAO();
 	
 	public SampleService() {
