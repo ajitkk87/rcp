@@ -47,4 +47,6 @@ public class Constants {
 	public static final String DATE_COLLECTED_DATE_FORMAT = "dd/MM/yyyy";
 	
 	public static final String VALIDATION_ERROR = "Validation Error";
+	
+	public static final String OFFSHOREGROUNDSAMPLING_PART_SAMPLECHART = "offshoregroundsampling.part.samplechart";
 }

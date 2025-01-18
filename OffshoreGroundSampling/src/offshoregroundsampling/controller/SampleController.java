@@ -1,6 +1,5 @@
 package offshoregroundsampling.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import offshoregroundsampling.model.Sample;
@@ -15,8 +14,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/samples")
 public class SampleController {
-	@Autowired
-	private SampleService sampleService;
+	
+	private SampleService sampleService = new SampleService();
 
 	@GetMapping
 	public List<Sample> getAllSamples() {

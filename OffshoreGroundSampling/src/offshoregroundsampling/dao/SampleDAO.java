@@ -8,9 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import offshoregroundsampling.db.DatabaseConnectionManager;
 import offshoregroundsampling.model.Sample;
 
+@Repository
 public class SampleDAO {
 
 	private static String CREATE_TABLE = """
@@ -101,6 +104,7 @@ public class SampleDAO {
 			pstmt.setDouble(4, sample.getUnitWeight());
 			pstmt.setDouble(5, sample.getWaterContent());
 			pstmt.setDouble(6, sample.getShearStrength());
+			pstmt.setString(7, sample.getSampleId());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

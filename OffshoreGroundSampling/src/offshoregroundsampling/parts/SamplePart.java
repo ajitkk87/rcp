@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -42,8 +43,13 @@ public class SamplePart {
 	@Inject
     private Shell shell;
 	
+	@Inject
+    private EPartService partService;
+
 	private SampleService sampleService = new SampleService();		
 	
+	SamplePartChart samplePartChart;
+
 	SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_COLLECTED_DATE_FORMAT);
 
 	@PostConstruct
@@ -82,9 +88,11 @@ public class SamplePart {
 		 
 	    // Buttons for operations
         createButtonsForTableOperations(parent);
+        
+        getSamplePartChart();
+        
 		return tableViewer;
 	}
-
 
 	/**
 	 * This method contains all the buttons related to CRUD operations for samples.
@@ -109,6 +117,7 @@ public class SamplePart {
 
 		Button deleteButton = getButton(buttonPanel, Constants.DELETE_SAMPLE);
 		deleteButton.addListener(SWT.Selection, e -> deleteSample());
+	
 	}
 
 	/**
@@ -196,7 +205,7 @@ public class SamplePart {
             sampleService.createSample(sample);   
         }
         tableViewer.setInput(sampleService.getAllSamples());
-        tableViewer.refresh();
+        refresh();
     }
 
     /**
@@ -210,11 +219,12 @@ public class SamplePart {
             Sample selectedSample = (Sample) selection.getFirstElement();
             SampleDialog sampleDialog = new SampleDialog(shell, selectedSample);
             if (sampleDialog.open() == SampleDialog.OK) {
+            	 sampleService.updateSample(selectedSample);
             	 MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
                  messageBox.setMessage(Constants.RECORD_MODIFIED_SUCCESSFULLY);
                  messageBox.open();
             }
-            tableViewer.refresh(); // Refresh the table after editing
+            refresh();
         } else {
             // No selection
             MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
@@ -231,7 +241,7 @@ public class SamplePart {
         if (!selection.isEmpty()) {
             // Get the selected Sample object
             sampleService.deleteSample((Sample) selection.getFirstElement());
-            tableViewer.refresh(); // Refresh the table after editing
+            refresh();
         } else {
             // No selection
             MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
@@ -267,7 +277,29 @@ public class SamplePart {
         tableViewerColumn.getColumn().setResizable(true);
 		return tableViewerColumn;
 	}
-	
+
+	/**
+	 * get Object of Sample Part Chart
+	 */
+	private SamplePartChart getSamplePartChart() {
+		if (samplePartChart == null) {
+			MPart part = partService.findPart(Constants.OFFSHOREGROUNDSAMPLING_PART_SAMPLECHART);
+			if (part != null) {
+				Object partObject = part.getObject();
+				if (partObject instanceof SamplePartChart) {
+					samplePartChart = (SamplePartChart) partObject;
+				}
+			} 
+		} 
+		return samplePartChart;
+	}
+
+	private void refresh() {
+		tableViewer.refresh();
+		getSamplePartChart();
+		samplePartChart.createChartAndRefreshFrame();
+	}
+
 	@Focus
 	public void setFocus() {
 		tableViewer.getTable().setFocus();
@@ -278,6 +310,4 @@ public class SamplePart {
 		part.setDirty(false);
 	}
  
-
-
 }

@@ -4,12 +4,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import offshoregroundsampling.dao.SampleDAO;
 import offshoregroundsampling.model.Sample;
 
 /**
  * This class is service layer for samples. 
  */
+@Service
 public class SampleService {
 
 	SampleDAO sampleDAO = new SampleDAO();
