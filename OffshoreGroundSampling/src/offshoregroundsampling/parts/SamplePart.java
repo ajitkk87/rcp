@@ -7,7 +7,6 @@ import offshoregroundsampling.dialog.SampleDialog;
 import offshoregroundsampling.model.Sample;
 import offshoregroundsampling.services.SampleService;
 
-import java.text.SimpleDateFormat;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -35,22 +34,21 @@ import org.eclipse.swt.widgets.Table;
  */
 public class SamplePart {
 
-	private TableViewer tableViewer;
-
 	@Inject
 	private MPart part;
-	
-	@Inject
-    private Shell shell;
-	
-	@Inject
-    private EPartService partService;
 
-	private SampleService sampleService = new SampleService();		
-	
-	SamplePartChart samplePartChart;
+	@Inject
+	private Shell shell;
 
-	SimpleDateFormat formatter = new SimpleDateFormat(Constants.DATE_COLLECTED_DATE_FORMAT);
+	@Inject
+	private EPartService partService;
+
+	@Inject
+	private SampleService sampleService;
+
+	private TableViewer tableViewer;
+
+	private SamplePartChart samplePartChart;
 
 	@PostConstruct
 	public void createComposite(Composite parent) {
@@ -60,12 +58,13 @@ public class SamplePart {
 
 	/**
 	 * This method creates sample data table.
+	 * 
 	 * @param parent
 	 * @return
 	 */
 	public TableViewer createTableViewer(Composite parent) {
 		parent.setLayout(new GridLayout(1, false));
-	        
+
 		// Create the table
 		tableViewer = new TableViewer(parent,
 				SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
@@ -78,30 +77,30 @@ public class SamplePart {
 
 		// Bind the data (the sample list from the backend)
 		tableViewer.setInput(sampleService.getAllSamples());
-		
+
 		tableViewer.getTable().setHeaderVisible(true); // Shows headers
-		tableViewer.getTable().setLinesVisible(true);  // Enables grid lines
-		tableViewer.getTable().setSize(750,150); //Minimum Size of table
-		
+		tableViewer.getTable().setLinesVisible(true); // Enables grid lines
+
 		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-	    tableViewer.getTable().setLayoutData(gridData);
-		 
-	    // Buttons for operations
-        createButtonsForTableOperations(parent);
-        
-        getSamplePartChart();
-        
+		tableViewer.getTable().setLayoutData(gridData);
+
+		// Buttons for operations
+		createButtonsForTableOperations(parent);
+
+		getSamplePartChart();
+
 		return tableViewer;
 	}
 
 	/**
 	 * This method contains all the buttons related to CRUD operations for samples.
+	 * 
 	 * @param parent
 	 */
 	private void createButtonsForTableOperations(Composite parent) {
+		
 		Composite buttonPanel = new Composite(parent, SWT.NONE);
 		buttonPanel.setLayout(new GridLayout(3, true));
-		buttonPanel.setSize(600, 30);
 		buttonPanel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Button addButton = getButton(buttonPanel, Constants.ADD_SAMPLE);
@@ -110,139 +109,134 @@ public class SamplePart {
 		Button editButton = getButton(buttonPanel, Constants.EDIT_SAMPLE);
 		editButton.addListener(SWT.Selection, e -> openEditSampleDialog());
 
-		// Button click listener to show the selected name
-		editButton.addListener(SWT.Selection, e -> {
-			// Get the selection
-		});
-
 		Button deleteButton = getButton(buttonPanel, Constants.DELETE_SAMPLE);
 		deleteButton.addListener(SWT.Selection, e -> deleteSample());
-	
+
 	}
 
 	/**
 	 * This method creates columns for Table with sample data.
+	 * 
 	 * @param table
 	 */
-	private void createColumns(Table table) {		
-		
-		TableViewerColumn sampleIdColumn = getTableViewerColumn(Constants.SAMPLE_ID);
-        sampleIdColumn.setLabelProvider(new ColumnLabelProvider() {
-            @Override
-            public String getText(Object element) {
-                return ((Sample) element).getSampleId();
-            }
-        });
-        
-        // Column for Location
-        TableViewerColumn locationColumn = getTableViewerColumn(Constants.LOCATION);
-        locationColumn.setLabelProvider(new ColumnLabelProvider() {
-            @Override
-            public String getText(Object element) {
-                return ((Sample) element).getLocation();
-            }
-        });
+	private void createColumns(Table table) {
 
-        // Column for Date Collected
-        TableViewerColumn dateCollectedColumn = getTableViewerColumn(Constants.DATE_COLLECTED);
-        dateCollectedColumn.setLabelProvider(new ColumnLabelProvider() {
-            @Override
-            public String getText(Object element) {
-                return formatter.format(((Sample) element).getDateCollected());
-            }
-        });
-        
-        // Column for Unit Weight
-        TableViewerColumn unitWeightColumn = getTableViewerColumn(Constants.UNIT_WEIGHT);
-        unitWeightColumn.setLabelProvider(new ColumnLabelProvider() {
-            @Override
-            public String getText(Object element) {
-                return String.valueOf(((Sample) element).getUnitWeight());
-            }
-        });
-        
-        // Column for Water Content
-        TableViewerColumn waterContentColumn = getTableViewerColumn(Constants.WATER_CONTENT);
-        waterContentColumn.setLabelProvider(new ColumnLabelProvider() {
-            @Override
-            public String getText(Object element) {
-                return String.valueOf(((Sample) element).getWaterContent());
-            }
-        });
-        
-        // Column for Shear Strength
-        TableViewerColumn shearStrengthColumn = getTableViewerColumn(Constants.SHEAR_STRENGTH);
-        shearStrengthColumn.setLabelProvider(new ColumnLabelProvider() {
-            @Override
-            public String getText(Object element) {
-                return String.valueOf(((Sample) element).getShearStrength());
-            }
-        });
-        
-        //Adjust table width based on percentage of window size
-        table.addControlListener(new ControlAdapter() {
-            @Override
-            public void controlResized(ControlEvent e) {
-                int tableWidth = table.getClientArea().width;
-                sampleIdColumn.getColumn().setWidth((int) (tableWidth * 0.20)); // 10% width
-                locationColumn.getColumn().setWidth((int) (tableWidth * 0.15)); // 10% width
-                dateCollectedColumn.getColumn().setWidth((int) (tableWidth * 0.22)); // 10% width
-                unitWeightColumn.getColumn().setWidth((int) (tableWidth * 0.13)); // 10% width
-                waterContentColumn.getColumn().setWidth((int) (tableWidth * 0.15)); // 45% width
-                shearStrengthColumn.getColumn().setWidth((int) (tableWidth * 0.15)); // 45% width
-            }
-        });
+		TableViewerColumn sampleIdColumn = getTableViewerColumn(Constants.SAMPLE_ID);
+		sampleIdColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((Sample) element).getSampleId();
+			}
+		});
+
+		// Column for Location
+		TableViewerColumn locationColumn = getTableViewerColumn(Constants.LOCATION);
+		locationColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((Sample) element).getLocation();
+			}
+		});
+
+		// Column for Date Collected
+		TableViewerColumn dateCollectedColumn = getTableViewerColumn(Constants.DATE_COLLECTED);
+		dateCollectedColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return Constants.DATE_COLLECTED_DATE_FORMATTER.format(((Sample) element).getDateCollected());
+			}
+		});
+
+		// Column for Unit Weight
+		TableViewerColumn unitWeightColumn = getTableViewerColumn(Constants.UNIT_WEIGHT);
+		unitWeightColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return String.valueOf(((Sample) element).getUnitWeight());
+			}
+		});
+
+		// Column for Water Content
+		TableViewerColumn waterContentColumn = getTableViewerColumn(Constants.WATER_CONTENT);
+		waterContentColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return String.valueOf(((Sample) element).getWaterContent());
+			}
+		});
+
+		// Column for Shear Strength
+		TableViewerColumn shearStrengthColumn = getTableViewerColumn(Constants.SHEAR_STRENGTH);
+		shearStrengthColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return String.valueOf(((Sample) element).getShearStrength());
+			}
+		});
+
+		// Adjust table width based on percentage of window size
+		table.addControlListener(new ControlAdapter() {
+			@Override
+			public void controlResized(ControlEvent e) {
+				int tableWidth = table.getClientArea().width;
+				sampleIdColumn.getColumn().setWidth((int) (tableWidth * 0.20)); // 10% width
+				locationColumn.getColumn().setWidth((int) (tableWidth * 0.15)); // 10% width
+				dateCollectedColumn.getColumn().setWidth((int) (tableWidth * 0.22)); // 10% width
+				unitWeightColumn.getColumn().setWidth((int) (tableWidth * 0.13)); // 10% width
+				waterContentColumn.getColumn().setWidth((int) (tableWidth * 0.15)); // 45% width
+				shearStrengthColumn.getColumn().setWidth((int) (tableWidth * 0.15)); // 45% width
+			}
+		});
 	}
 
 	/**
-     * This is create event handler method for UI.
-     */
-    private void openAddSampleDialog(Composite parent) {
-        // Implement a dialog to add a sample
-    	SampleDialog sampleDialog = new SampleDialog(shell);
-        if (sampleDialog.open() == SampleDialog.OK) {
-            Sample sample = sampleDialog.getSample();
-            sampleService.createSample(sample);   
-        }
-        tableViewer.setInput(sampleService.getAllSamples());
-        refresh();
-    }
+	 * This is create event handler method for UI.
+	 */
+	private void openAddSampleDialog(Composite parent) {
+		// Implement a dialog to add a sample
+		SampleDialog sampleDialog = new SampleDialog(shell);
+		if (sampleDialog.open() == SampleDialog.OK) {
+			Sample sample = sampleDialog.getSample();
+			sampleService.createSample(sample);
+		}
+		tableViewer.setInput(sampleService.getAllSamples());
+		refresh();
+	}
 
-    /**
-     * This is edit event handler method for UI.
-     */
-    private void openEditSampleDialog() {
-        // Implement editing functionality
-    	IStructuredSelection selection = tableViewer.getStructuredSelection();
-        if (!selection.isEmpty()) {
-            // Get the selected Sample object
-            Sample selectedSample = (Sample) selection.getFirstElement();
-            SampleDialog sampleDialog = new SampleDialog(shell, selectedSample);
-            if (sampleDialog.open() == SampleDialog.OK) {
-            	 sampleService.updateSample(selectedSample);
-                 messagePopUp(Constants.RECORD_MODIFIED_SUCCESSFULLY);
-            }
-            refresh();
-        } else {
-        	messagePopUp(Constants.NO_ROW_SELECTED);
-        }
-    }
+	/**
+	 * This is edit event handler method for UI.
+	 */
+	private void openEditSampleDialog() {
+		// Implement editing functionality
+		IStructuredSelection selection = tableViewer.getStructuredSelection();
+		if (!selection.isEmpty()) {
+			// Get the selected Sample object
+			Sample selectedSample = (Sample) selection.getFirstElement();
+			SampleDialog sampleDialog = new SampleDialog(shell, selectedSample);
+			if (sampleDialog.open() == SampleDialog.OK) {
+				sampleService.updateSample(selectedSample);
+				messagePopUp(Constants.RECORD_MODIFIED_SUCCESSFULLY);
+			}
+			refresh();
+		} else {
+			messagePopUp(Constants.NO_ROW_SELECTED);
+		}
+	}
 
+	/**
+	 * This is delete event handler method for UI.
+	 */
+	private void deleteSample() {
+		IStructuredSelection selection = tableViewer.getStructuredSelection();
+		if (!selection.isEmpty()) {
+			// Get the selected Sample object
+			sampleService.deleteSample((Sample) selection.getFirstElement());
+			refresh();
+		} else {
+			messagePopUp(Constants.NO_ROW_SELECTED);
+		}
+	}
 
-    /**
-     * This is delete event handler method for UI.
-     */
-    private void deleteSample() {
-    	IStructuredSelection selection = tableViewer.getStructuredSelection();
-        if (!selection.isEmpty()) {
-            // Get the selected Sample object
-            sampleService.deleteSample((Sample) selection.getFirstElement());
-            refresh();
-        } else {
-            messagePopUp(Constants.NO_ROW_SELECTED);
-        }
-    }
-    
 	/**
 	 * Utility method to get button for button panel.
 	 * 
@@ -252,22 +246,22 @@ public class SamplePart {
 	 */
 	private Button getButton(Composite buttonPanel, String labelName) {
 		Button button = new Button(buttonPanel, SWT.PUSH);
-        button.setText(labelName);
-        button.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		button.setText(labelName);
+		button.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		return button;
 	}
 
 	/**
-	 *  Utility method for creating table viewer column.
-	 *  
+	 * Utility method for creating table viewer column.
+	 * 
 	 * @param labelName
 	 * @return
 	 */
 	private TableViewerColumn getTableViewerColumn(String labelName) {
-        TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
-        tableViewerColumn.getColumn().setText(labelName);
-        tableViewerColumn.getColumn().setWidth(100);
-        tableViewerColumn.getColumn().setResizable(true);
+		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+		tableViewerColumn.getColumn().setText(labelName);
+		tableViewerColumn.getColumn().setWidth(100);
+		tableViewerColumn.getColumn().setResizable(true);
 		return tableViewerColumn;
 	}
 
@@ -282,8 +276,8 @@ public class SamplePart {
 				if (partObject instanceof SamplePartChart) {
 					samplePartChart = (SamplePartChart) partObject;
 				}
-			} 
-		} 
+			}
+		}
 		return samplePartChart;
 	}
 
@@ -311,5 +305,5 @@ public class SamplePart {
 	public void save() {
 		part.setDirty(false);
 	}
- 
+
 }

@@ -30,7 +30,8 @@ import offshoregroundsampling.services.SampleService;
  */
 public class SamplePartChart {
 	
-	private SampleService sampleService = new SampleService();	
+	@Inject
+	private SampleService sampleService;	
 		
 	@Inject
 	private MPart part;
@@ -77,6 +78,9 @@ public class SamplePartChart {
 		return frame;
 	}
 
+	/**
+	 * 
+	 */
 	public void createChartAndRefreshFrame() {
 		
 		// Create the chart and embed it in the AWT frame

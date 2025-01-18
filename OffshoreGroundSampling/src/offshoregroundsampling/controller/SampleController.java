@@ -1,7 +1,9 @@
 package offshoregroundsampling.controller;
 
+import org.eclipse.e4.core.di.annotations.Creatable;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.inject.Inject;
 import offshoregroundsampling.model.Sample;
 import offshoregroundsampling.services.SampleService;
 
@@ -13,9 +15,11 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/samples")
+@Creatable
 public class SampleController {
 	
-	private SampleService sampleService = new SampleService();
+	@Inject
+	private SampleService sampleService;
 
 	@GetMapping
 	public List<Sample> getAllSamples() {

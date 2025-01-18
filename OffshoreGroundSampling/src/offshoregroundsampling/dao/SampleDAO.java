@@ -8,12 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
+import org.eclipse.e4.core.di.annotations.Creatable;
+import jakarta.inject.Singleton;
 import offshoregroundsampling.db.DatabaseConnectionManager;
 import offshoregroundsampling.model.Sample;
 
-@Repository
+@Creatable
+@Singleton
 public class SampleDAO {
 
 	private static String CREATE_TABLE = """
@@ -37,6 +38,8 @@ public class SampleDAO {
 
 	private static String DELETE_SQL = "DELETE FROM Sample WHERE SAMPLE_ID = ?";
 
+	private static String DELETE_ALL_SQL = "DELETE FROM Sample";
+	
 	public static void initialize() {
 		try (Connection conn = DatabaseConnectionManager.getInstance().getConnection();
 				Statement stmt = conn.createStatement()) {
@@ -119,6 +122,16 @@ public class SampleDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void deleteAllSamples() {
+		try (Connection conn = DatabaseConnectionManager.getInstance().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(DELETE_ALL_SQL)) {
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

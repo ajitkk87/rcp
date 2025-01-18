@@ -4,20 +4,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
+import org.eclipse.e4.core.di.annotations.Creatable;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import offshoregroundsampling.dao.SampleDAO;
 import offshoregroundsampling.model.Sample;
 
 /**
  * This class is service layer for samples. 
  */
-@Service
+@Creatable
+@Singleton
 public class SampleService {
 
-	SampleDAO sampleDAO = new SampleDAO();
+	SampleDAO sampleDAO;
 	
-	public SampleService() {
+	@Inject
+	public SampleService(SampleDAO sampleDAO) {
+		this.sampleDAO = sampleDAO;
+		initialize();
 	}
 	
 	public void initialize() {
@@ -35,12 +40,7 @@ public class SampleService {
 	}
 
 	public List<Sample> getAllSamples() {
-		List<Sample> samples = sampleDAO.getAllSamples();
-		if(samples == null || samples.isEmpty()) {
-			initialize(); 
-			samples = sampleDAO.getAllSamples();
-		}
-		return samples;
+		return sampleDAO.getAllSamples();
 	}
 
 	public Sample createSample(Sample sample) {
@@ -55,6 +55,10 @@ public class SampleService {
 
 	public void deleteSample(Sample sample) {
 		sampleDAO.deleteSample(sample.getSampleId());
+	}
+	
+	public void deleteAllSamples() {
+		sampleDAO.deleteAllSamples();
 	}
 
 	public Sample findSample(String sampleId) {
