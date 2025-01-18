@@ -38,7 +38,6 @@ public class SamplePartChart {
     @Inject
     public SamplePartChart() {}
     
-  
     private Frame frame;
 
     @PostConstruct

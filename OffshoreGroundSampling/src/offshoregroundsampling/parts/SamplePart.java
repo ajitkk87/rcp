@@ -220,18 +220,14 @@ public class SamplePart {
             SampleDialog sampleDialog = new SampleDialog(shell, selectedSample);
             if (sampleDialog.open() == SampleDialog.OK) {
             	 sampleService.updateSample(selectedSample);
-            	 MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
-                 messageBox.setMessage(Constants.RECORD_MODIFIED_SUCCESSFULLY);
-                 messageBox.open();
+                 messagePopUp(Constants.RECORD_MODIFIED_SUCCESSFULLY);
             }
             refresh();
         } else {
-            // No selection
-            MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
-            messageBox.setMessage(Constants.NO_ROW_SELECTED);
-            messageBox.open();
+        	messagePopUp(Constants.NO_ROW_SELECTED);
         }
     }
+
 
     /**
      * This is delete event handler method for UI.
@@ -243,10 +239,7 @@ public class SamplePart {
             sampleService.deleteSample((Sample) selection.getFirstElement());
             refresh();
         } else {
-            // No selection
-            MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
-            messageBox.setMessage(Constants.NO_ROW_SELECTED);
-            messageBox.open();
+            messagePopUp(Constants.NO_ROW_SELECTED);
         }
     }
     
@@ -292,6 +285,15 @@ public class SamplePart {
 			} 
 		} 
 		return samplePartChart;
+	}
+
+	/**
+	 * Message Popup
+	 */
+	private void messagePopUp(String message) {
+		MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
+		messageBox.setMessage(message);
+		messageBox.open();
 	}
 
 	private void refresh() {
