@@ -293,7 +293,7 @@ public class SamplePart {
 	private void refresh() {
 		tableViewer.refresh();
 		getSamplePartChart();
-		samplePartChart.createChartAndRefreshFrame();
+		samplePartChart.refreshChart();
 	}
 
 	@Focus

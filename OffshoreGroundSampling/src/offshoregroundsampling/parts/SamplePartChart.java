@@ -23,110 +23,126 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
+import offshoregroundsampling.constants.Constants;
 import offshoregroundsampling.services.SampleService;
 
 /**
  * This part contains logic for graph creation for unit weight and water content.
  */
 public class SamplePartChart {
-	
+
 	@Inject
-	private SampleService sampleService;	
-		
+	private SampleService sampleService;
+
 	@Inject
 	private MPart part;
-	
-    @Inject
-    public SamplePartChart() {}
-    
-    private Frame frame;
 
-    @PostConstruct
+	@Inject
+	public SamplePartChart() {
+	}
+
+	private JFreeChart chart;
+
+	@PostConstruct
 	public void createControls(Composite parent) {
 
 		AtomicInteger windowCorrected = new AtomicInteger(0);
-		frame = getFrame(parent);
-		createChartAndRefreshFrame();
 		
-		// Set the "Maximized" tag on the part stack
-		maximizeAndRestoreTheFrame();
-		
+		createChart(parent);
+
+		maximizeAndRestoreThePart();
+
 		Timer timer = new Timer(3000, e -> {
 			if (windowCorrected.incrementAndGet() < 2) {
-				maximizeAndRestoreTheFrame();
+				maximizeAndRestoreThePart();
 			}
+			
 		});
 		timer.start();
 
 	}
 
-	private MElementContainer<MUIElement> maximizeAndRestoreTheFrame() {
+	/**
+	 * Maximize and restore the part stack using tags.
+	 * @return
+	 */
+	private MElementContainer<MUIElement> maximizeAndRestoreThePart() {
 		MElementContainer<MUIElement> partStack = part.getParent().getParent();
 		partStack.getChildren().get(1).getTags().add("Maximized");
 		partStack.getChildren().get(1).getTags().remove("Maximized");
 		return partStack;
 	}
 
-	public Frame getFrame(Composite parent) {
-		if (frame == null) {
-			// Set SWT layout
-			parent.setLayout(new FillLayout(SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER));
-			// Create the AWT Frame for embedding JFreeChart
-			Composite awtFrame = new Composite(parent, SWT.EMBEDDED);
-			frame = SWT_AWT.new_Frame(awtFrame);
-		}
-		return frame;
-	}
-
 	/**
+	 * Create XY Line Chart under parent.
 	 * 
+	 * @param parent
 	 */
-	public void createChartAndRefreshFrame() {
-		
+	private void createChart(Composite parent) {
+
+		// Set SWT layout
+		parent.setLayout(new FillLayout(SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER));
+		// Create the AWT Frame for embedding JFreeChart
+		Composite awtFrame = new Composite(parent, SWT.EMBEDDED);
+		Frame frame = SWT_AWT.new_Frame(awtFrame);
+
 		// Create the chart and embed it in the AWT frame
-		JFreeChart chart = ChartFactory.createXYLineChart(
-	            "Dependency between Unit Weight and Water Content", // Title
-	            "Water Content (%)",                                // X-Axis Label
-	            "Unit Weight (kN/m³)",                              // Y-Axis Label
-	            loadAndRefreshDataset(),                            // Dataset
-	            PlotOrientation.VERTICAL,                           // Orientation
-	            true,                                               // Show legend
-	            true,                                               // Use tooltips
-	            false                                               // Generate URLs
-	        );
+		chart = ChartFactory.createXYLineChart(Constants.CHART_TITLE_DEPENDENCY_BETWEEN_UNIT_WEIGHT_AND_WATER_CONTENT, // Title
+				Constants.CHART_X_AXIS_WATER_CONTENT, // X-Axis Label
+				Constants.CHART_Y_AXIS_UNIT_WEIGHT, // Y-Axis Label
+				loadChartDataset(), // Dataset
+				PlotOrientation.VERTICAL, // Orientation
+				true, // Show legend
+				true, // Use tooltips
+				false // Generate URLs
+		);
+
 		ChartPanel chartPanel = new ChartPanel(chart);
 
 		// Set BorderLayout for the container
 		JPanel container = new JPanel(new BorderLayout());
-    
+
 		// Add the ChartPanel to the CENTER of the container
 		container.add(chartPanel, BorderLayout.CENTER);
-		frame.removeAll();
 		frame.add(container);
-
-		// Refresh the graph for new data
-		chartPanel.revalidate();
-		chartPanel.repaint();
-		container.revalidate();
-		container.repaint();
-		frame.revalidate();
-		frame.repaint();
 	}
 
-   
-	/* Fetch data for report
+	/**
+	 * Refresh Chart for button events
+	 */
+	public void refreshChart() {
+		loadOrRefreshChartDataset((XYSeriesCollection) chart.getXYPlot().getDataset());
+		chart.fireChartChanged();
+	}
+
+	/**
+	 * Fetch data for chart
+	 * 
 	 * @return
 	 */
-	private XYSeriesCollection loadAndRefreshDataset() {
-		XYSeries series = new XYSeries("Unit Weight vs Water Content");
-        
+	private XYSeriesCollection loadChartDataset() {
+		return loadOrRefreshChartDataset(null);
+	}
+
+	/**
+	 * Fetch or refresh data for chart
+	 * 
+	 * @return
+	 */
+	private XYSeriesCollection loadOrRefreshChartDataset(XYSeriesCollection dataset) {
+		XYSeries series = dataset != null && dataset.getSeries() != null ? (XYSeries) dataset.getSeries().getFirst()
+				: new XYSeries("Unit Weight vs Water Content");
+
+		fillSeries(series);
+
+		return dataset = dataset != null ? dataset : new XYSeriesCollection(series);
+
+	}
+
+	private void fillSeries(XYSeries series) {
+		series.clear();
 		sampleService.getAllSamples().forEach(sample -> {
-        	series.add(sample.getWaterContent(), sample.getUnitWeight());
-        });
-       
-        // Add the series to the dataset
-        XYSeriesCollection dataset = new XYSeriesCollection(series);
-        
-        return dataset;
+			series.add(sample.getWaterContent(), sample.getUnitWeight());
+		});
 	}
 }

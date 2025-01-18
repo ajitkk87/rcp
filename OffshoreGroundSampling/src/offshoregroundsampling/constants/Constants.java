@@ -38,6 +38,12 @@ public class Constants {
 	
 	public static final String WATER_CONTENT_SHOULD_BE_BETWEEN_5_AND_150 = "Water content should be between 5% and 150%";
 
+	public static final String CHART_Y_AXIS_UNIT_WEIGHT = "Unit Weight (kN/m³)";
+
+	public static final String CHART_X_AXIS_WATER_CONTENT = "Water Content (%)";
+
+	public static final String CHART_TITLE_DEPENDENCY_BETWEEN_UNIT_WEIGHT_AND_WATER_CONTENT = "Dependency between Unit Weight and Water Content";
+
     public static final String H2_DB_DRIVER = "org.h2.Driver";
     
 	public static final String H2_DB_JDBC_URL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1"; // Modify as needed
