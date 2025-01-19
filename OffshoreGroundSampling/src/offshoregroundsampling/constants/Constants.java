@@ -52,6 +52,8 @@ public class Constants {
     
     public static final String H2_DB_PASSWORD = "";
     
+    public static final String H2_DB_HIBERNATE_DIALECT = "org.hibernate.dialect.H2Dialect";
+    
 	public static final String DATE_COLLECTED_DATE_FORMAT = "dd/MM/yyyy";
 	
 	public static final SimpleDateFormat DATE_COLLECTED_DATE_FORMATTER = new SimpleDateFormat(Constants.DATE_COLLECTED_DATE_FORMAT);

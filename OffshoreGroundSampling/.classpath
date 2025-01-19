@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/antlr4-runtime-4.13.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/byte-buddy-1.14.18.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jakarta.xml.bind-api-4.0.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-runtime-4.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-core-4.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/classmate-1.5.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-core-2.18.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate-commons-annotations-7.0.3.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jakarta.transaction-api-2.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jboss-logging-3.5.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jakarta.persistence-api-3.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-6.6.4.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate-entitymanager-5.6.15.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/h2-2.3.232.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.5.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21">
 		<attributes>
-			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>

@@ -2,16 +2,32 @@ package offshoregroundsampling.model;
 
 import java.util.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "SAMPLE_TABLE")
 public class Sample {
 
+	@Id
+	@Column(name = "SAMPLE_ID")
 	private String sampleId;
+	
+	@Column(name = "LOCATION")
 	private String location;
+	
+	@Column(name = "DATE_COLLECTED", columnDefinition =  "DATE")
 	private Date dateCollected;
+	
+	@Column(name = "UNIT_WEIGHT")
 	private double unitWeight; // in kN/m3
+	
+	@Column(name = "WATER_CONTENT")
 	private double waterContent; // in percentage
+	
+	@Column(name = "SHEAR_STRENGTH")
 	private double shearStrength; // in kPa
 
 	public Sample() {
@@ -44,7 +60,7 @@ public class Sample {
 	}
 
 	public Date getDateCollected() {
-		return dateCollected;
+		return dateCollected instanceof java.sql.Date ? new Date(dateCollected.getTime()) : dateCollected;
 	}
 
 	public void setDateCollected(Date dateCollected) {

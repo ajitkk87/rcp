@@ -54,7 +54,7 @@ public class SampleService {
 	}
 
 	public void deleteSample(Sample sample) {
-		sampleDAO.deleteSample(sample.getSampleId());
+		sampleDAO.deleteSample(sample);
 	}
 	
 	public void deleteAllSamples() {
