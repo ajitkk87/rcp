@@ -2,7 +2,9 @@ package offshoregroundsampling.tests;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
@@ -51,6 +53,27 @@ public class SampleServiceTest {
 		Sample result = sampleService.findSample("S001");
 		assertNotNull(result);
 		assertEquals("S001", result.getSampleId());
+	}
+	
+	@Test
+	public void testUpdateSample() {
+		Sample sample = new Sample("S001", "Location1", new Date(), 20.5, 35.0, 150.0);
+		Sample result = sampleService.createSample(sample);
+		sample.setSampleId("S002");
+		result = sampleService.updateSample(sample);
+		assertNotNull(result);
+		assertNotEquals("S001", result.getSampleId());
+		assertEquals("S002", result.getSampleId());
+	}
+	
+	@Test
+	public void testDeleteSample() {
+		Sample sample = new Sample("S001", "Location1", new Date(), 20.5, 35.0, 150.0);
+		Sample result = sampleService.createSample(sample);
+		assertNotNull(result);
+		sampleService.deleteSample(result);
+		result = sampleService.findSample("S001");
+		assertNull(result);
 	}
 
 	@Test

@@ -69,7 +69,11 @@ public class SampleDAO {
 		EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
 	    try {
 	        em.getTransaction().begin();
-	        em.remove(sample); // Delete the entity
+	        // Replace with the actual id 
+	        Sample sampleToRemove = em.find(Sample.class, sample.getSampleId()); 
+	        if (sampleToRemove != null) { // Remove the entity 
+	        	em.remove(sampleToRemove);
+	        }	        
 	        em.getTransaction().commit();
 	    } catch (Exception e) {
 	        em.getTransaction().rollback();
