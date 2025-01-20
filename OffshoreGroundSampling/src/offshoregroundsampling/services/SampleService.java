@@ -29,12 +29,12 @@ public class SampleService {
 	}
 	
 	public void initialize() {
-		createSample(new Sample("S001", "Location1", new Date(), 20.5, 35.0, 150.0));
-		createSample(new Sample("S002", "Location2", new Date(), 19.5, 30.0, 140.0));
-		createSample(new Sample("S003", "Location3", new Date(), 20.5, 35.0, 150.0));
-		createSample(new Sample("S004", "Location4", new Date(), 19.5, 30.0, 140.0));
-		createSample(new Sample("S005", "Location5", new Date(), 20.5, 35.0, 150.0));
-		createSample(new Sample("S006", "Location6", new Date(), 19.5, 30.0, 140.0));
+		createSample(new Sample("S001", "Den Haag", new Date(), 20.5, 35.0, 150.0));
+		createSample(new Sample("S002", "Rotteram", new Date(), 19.5, 30.0, 140.0));
+		createSample(new Sample("S003", "Amsterdam", new Date(), 20.5, 35.0, 150.0));
+		createSample(new Sample("S004", "Utecht", new Date(), 19.5, 30.0, 140.0));
+		createSample(new Sample("S005", "Eindhoven", new Date(), 21.5, 35.0, 150.0));
+		createSample(new Sample("S006", "Groningen", new Date(), 19.5, 30.0, 140.0));
 	}
 
 	// This method would interact with the backend to save the sample data

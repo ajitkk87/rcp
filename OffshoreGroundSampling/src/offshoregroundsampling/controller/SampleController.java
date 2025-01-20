@@ -36,8 +36,8 @@ public class SampleController {
 		return sampleService.updateSample(sample);
 	}
 
-	@DeleteMapping("/{id}")
-	public void deleteSample(@PathVariable String id) {
-		sampleService.deleteSample(sampleService.findSample(id));
+	@DeleteMapping("/{sampleId}")
+	public void deleteSample(@PathVariable("sampleId") String sampleId) {
+		sampleService.deleteSample(sampleService.findSample(sampleId));
 	}
 }

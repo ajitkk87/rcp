@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "e364a3c0-779b-4e6f-9b57-9a3aa976d3be",
+		"name": "OffshoreGroundSampling",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "17401597"
+	},
+	"item": [
+		{
+			"name": "average-water-content",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/offshoregroundsampling/statistics/average-water-content"
+			},
+			"response": []
+		},
+		{
+			"name": "locations",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/offshoregroundsampling/locations"
+			},
+			"response": []
+		},
+		{
+			"name": "samples",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"sampleId\": \"S007\",\r\n        \"location\": \"Den Haag\",\r\n        \"dateCollected\": \"2025-01-19T18:30:00.000+00:00\",\r\n        \"unitWeight\": 20.5,\r\n        \"waterContent\": 35.0,\r\n        \"shearStrength\": 150.0\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/offshoregroundsampling/samples"
+			},
+			"response": []
+		},
+		{
+			"name": "sample-create",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"sampleId\": \"S007\",\r\n        \"location\": \"Zwolle\",\r\n        \"dateCollected\": \"2025-01-19T18:30:00.000+00:00\",\r\n        \"unitWeight\": 20.5,\r\n        \"waterContent\": 35.0,\r\n        \"shearStrength\": 150.0\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/offshoregroundsampling/samples"
+			},
+			"response": []
+		},
+		{
+			"name": "sample-update",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"sampleId\": \"S006\",\r\n        \"location\": \"Arnhem\",\r\n        \"dateCollected\": \"2025-01-19T18:30:00.000+00:00\",\r\n        \"unitWeight\": 20.5,\r\n        \"waterContent\": 35.0,\r\n        \"shearStrength\": 150.0\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/offshoregroundsampling/samples"
+			},
+			"response": []
+		},
+		{
+			"name": "sample-delete",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"sampleId\": \"S007\",\r\n        \"location\": \"Arnhem\",\r\n        \"dateCollected\": \"2025-01-19T18:30:00.000+00:00\",\r\n        \"unitWeight\": 20.5,\r\n        \"waterContent\": 35.0,\r\n        \"shearStrength\": 150.0\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/offshoregroundsampling/samples/S006",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"offshoregroundsampling",
+						"samples",
+						"S006"
+					],
+					"query": [
+						{
+							"key": "sampleId",
+							"value": "S007",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

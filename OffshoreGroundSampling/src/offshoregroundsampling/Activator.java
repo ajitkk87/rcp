@@ -17,7 +17,7 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		// Start Spring Boot application
-        springContext = SpringApplication.run(EmbeddedSpringBootApplication.class);
+        springContext = SpringApplication.run(OffshoreSpringBootApplication.class);
        
         // Set the java.awt.headless property based on some condition
         String headless = System.getProperty("java.awt.headless");
