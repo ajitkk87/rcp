@@ -20,20 +20,14 @@ public class Activator implements BundleActivator {
 		Activator.context = bundleContext;
 		// Start Spring Boot application
         springContext = SpringApplication.run(EmbeddedSpringBootApplication.class);
-        
-		System.out.println("Bean Names:");
-        Arrays.stream(springContext.getBeanDefinitionNames()).forEach(b -> System.out.println(b));
-        
+       
         // Set the java.awt.headless property based on some condition
         String headless = System.getProperty("java.awt.headless");
         if (headless == null || headless.equals("true")) {
             // Set to false to ensure the GUI works
             System.setProperty("java.awt.headless", "false");
         }
-        
-        // Optionally print out the new headless status for debugging
-        System.out.println("java.awt.headless = " + System.getProperty("java.awt.headless"));
-       
+         
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
