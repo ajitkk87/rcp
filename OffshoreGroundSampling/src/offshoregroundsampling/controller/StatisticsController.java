@@ -1,21 +1,24 @@
 package offshoregroundsampling.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.eclipse.e4.core.di.annotations.Creatable;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.inject.Inject;
 import offshoregroundsampling.services.SampleService;
 
 /**
  * This controller is responsible for providing statistics about data such as
  * average water content.
  */
+@Creatable
 @RestController
-@RequestMapping("/api/statistics")
+@RequestMapping("/offshoregroundsampling/statistics")
 public class StatisticsController {
-	@Autowired
+	
+	@Inject
 	private SampleService sampleService;
 
-	@GetMapping
+	@GetMapping("/average-water-content")
 	public double getAverageWaterContent() {
 		return sampleService.calculateAverageWaterContent();
 	}

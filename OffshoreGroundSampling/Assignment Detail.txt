@@ -1,0 +1,86 @@
+________________________________________
+Domain: Offshore Ground Sampling (Environmental Data Collection)
+Technology Stack:
+•	Frontend: Eclipse RCP (Rich Client Platform)
+•	Backend: Spring Boot + JPA (Hibernate)
+•	Database: H2 (In-memory database for easy execution)
+•	Other: RESTful APIs, Authentication
+________________________________________
+Assignment Overview:
+You are tasked with developing a small full-stack application to manage offshore ground sampling data for environmental studies. The application will consist of two parts:
+1.	Frontend: A basic Eclipse RCP client application where the user can interact with the data and view sampling results.
+2.	Backend: A Spring Boot application with a RESTful API to handle data storage, retrieval, and basic calculations related to offshore ground sampling.
+The system will store sampling locations and measured parameters (unit weight, water content and shear strength), and will allow the frontend to view, add, and update these records. The backend will also perform domain-specific data processing, such as calculating averages and identifying samples that surpass threshold values. The frontend will interact with the backend via RESTful API endpoints.
+________________________________________
+Frontend (Eclipse RCP) - Part 1:
+1.	UI Requirements:
+o	Main Window: A window displaying all samples with the following details.
+	Sample ID (unique identifier for each ground sample)
+	Location (Geographical location name)
+	Date Collected (Date of sampling)
+	Unit weight (kN/m3), Water content (%), Shear strength (kPa) (Measurement data)
+o	Add Sample Button: A button to add a new sample to the system. When clicked, it should open a dialog to input the following:
+	Location (Dropdown field to select from the list of locations returned by the backend)
+	Date
+	Unit weight
+	Water content
+	Shear strength
+o	Edit/Delete Buttons: Allow for the selection of an existing sample from the table and perform edits or delete operations.
+o	Basic Validation: Ensure that data inputs are valid (e.g., Water content > 5%  and < 150%, Unit weight > 12 kN/m3 and < 26 kN/m3, shear strength > 2 kPa and < 1000 kPa etc.).
+o	API Interaction: The frontend should interact with the backend service via HTTP requests to perform CRUD operations (Create, Read, Update, Delete) on the data. Additionally, the frontend will request and display statistics, including:
+	Average water content of all samples.
+	Samples surpassing threshold values (for the measured parameters).
+2.	Optional Feature (Bonus):
+o	Graph Visualization: If implemented, a simple graph should visualize the dependency between the unit weight and the water content (X-axis: Water content, Y-axis: Unit weight). You may use a graphing library such as draw2d, Nebula XYgraph, JFreeChart ...
+________________________________________
+Backend (Spring Boot) - Part 2:
+1.	Domain Model & Database Structure:
+o	The application will persist data in an H2 in-memory database, configured for easy execution during testing and development.
+o	All data should be stored in the database in SI units. In case different units should be used in the UI conversion should take place.
+o	Use Hibernate for the entity mappings, including required relationships between entities.
+2.	API Endpoints:
+o	CRUD Operations for Samples: Implement standard REST API endpoints for the sample data
+o	Locations Endpoint: Implement an endpoint to return all locations. It is not required to implement CRUD operations for locations, they can be just initialized in the database and obtained in this endpoint.
+o	Statistics Endpoint: Implement an endpoint to fetch statistics related to the samples (e.g. average water content).
+3.	Threshold Values Configuration:
+o	The threshold values should be configurable on the server side. You store them in an application configuration file (e.g., application.properties or application.yml), so they can be easily adjusted without modifying the code.
+4.	Security: (Optional)
+o	Implement basic authentication for the backend. Use either Basic Authentication or JWT to secure the API endpoints. Only authenticated users should be able to add, update, or delete samples.
+o	The valid users can be created on the server side as a configuration or stored in the database.
+5.	Testing:
+o	Write unit tests for your service and repository layers to ensure: 
+	The average water content calculation works correctly.
+	The detection of samples surpassing threshold values is accurate.
+o	Integration tests are out of scope for this assignment, but you can use the H2 database for in-memory testing.
+________________________________________
+Deliverables:
+1.	Frontend (Eclipse RCP):
+o	The Eclipse RCP project containing the application code and UI implementation.
+o	Instructions on how to run and test the RCP application.
+2.	Backend (Spring Boot):
+o	The Spring Boot application with all necessary configurations, including Hibernate entity mappings.
+o	Database configuration for the H2 in-memory database.
+o	Instructions on how to run and test the backend service.
+3.	Documentation: 
+o	A README file containing: 
+	Setup instructions for both frontend and backend.
+	Description of the domain and the calculations performed.
+4.	Tests:
+o	Unit tests for the main service functionality.
+________________________________________
+Evaluation Criteria:
+•	Frontend:
+o	Clean, functional UI with proper interaction with the backend.
+o	Good understanding of Eclipse RCP and basic UI interactions.
+o	Well-structured and easy-to-understand code.
+•	Backend:
+o	Correct implementation of RESTful API endpoints for CRUD operations and statistics.
+o	Efficient database interactions using Hibernate and JPA with correct entity mappings.
+o	Accurate domain-specific logic for calculating averages and detecting threshold breaches.
+o	Proper implementation of authentication and API security.
+o	Well-written unit tests for the service layer.
+•	General:
+o	Code quality (readability, maintainability, etc.).
+o	Proper use of best practices in both frontend and backend development.
+o	Demonstrated ability to solve real-world problems using both frontend and backend technologies.
+________________________________________

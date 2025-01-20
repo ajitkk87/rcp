@@ -3,16 +3,19 @@ package offshoregroundsampling.dao;
 import java.util.List;
 
 import org.eclipse.e4.core.di.annotations.Creatable;
+import org.springframework.stereotype.Repository;
+
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
-import offshoregroundsampling.config.JpaUtil;
+import offshoregroundsampling.config.db.JpaUtil;
 import offshoregroundsampling.model.Sample;
 
 @Creatable
 @Singleton
+@Repository
 public class SampleDAO {
 
 	public void createSample(Sample sample) {

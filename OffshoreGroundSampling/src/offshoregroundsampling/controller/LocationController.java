@@ -1,8 +1,8 @@
 package offshoregroundsampling.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.inject.Inject;
 import offshoregroundsampling.services.SampleService;
 
 import java.util.List;
@@ -11,9 +11,10 @@ import java.util.List;
  * This controller is responsible for providing location specific details.
  */
 @RestController
-@RequestMapping("/api/locations")
+@RequestMapping("/offshoregroundsampling/locations")
 public class LocationController {
-	@Autowired
+
+    @Inject
 	private SampleService sampleService;
 
 	@GetMapping

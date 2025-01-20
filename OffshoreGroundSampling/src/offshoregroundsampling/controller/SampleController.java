@@ -14,7 +14,7 @@ import java.util.List;
  * deletion and retrieval of samples.
  */
 @RestController
-@RequestMapping("/api/samples")
+@RequestMapping("/offshoregroundsampling/samples")
 @Creatable
 public class SampleController {
 	

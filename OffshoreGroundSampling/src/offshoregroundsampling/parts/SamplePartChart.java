@@ -53,7 +53,7 @@ public class SamplePartChart {
 		maximizeAndRestoreThePart();
 
 		Timer timer = new Timer(1000, e -> {
-			if (windowCorrected.incrementAndGet() < 2) {
+			if (windowCorrected.incrementAndGet() < 3) {
 				maximizeAndRestoreThePart();
 			} else {
 				((Timer) e.getSource()).stop();

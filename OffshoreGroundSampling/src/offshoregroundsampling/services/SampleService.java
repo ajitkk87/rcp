@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.e4.core.di.annotations.Creatable;
+import org.springframework.stereotype.Service;
+
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import offshoregroundsampling.dao.SampleDAO;
@@ -15,6 +17,7 @@ import offshoregroundsampling.model.Sample;
  */
 @Creatable
 @Singleton
+@Service
 public class SampleService {
 
 	SampleDAO sampleDAO;

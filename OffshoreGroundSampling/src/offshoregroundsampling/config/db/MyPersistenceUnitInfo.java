@@ -1,4 +1,4 @@
-package offshoregroundsampling.config;
+package offshoregroundsampling.config.db;
 
 import java.net.URL;
 import java.util.List;
