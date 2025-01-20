@@ -5,8 +5,8 @@ This project is an Eclipse Rich Client Platform (RCP) and spring boot applicatio
 ## Table of Contents
 
 - [Features](#features)
-- [Software Prerequisites](#softwareprerequisites)
-- [Technology Prerequisites ](#technologyprerequisites )
+- [Software Prerequisites](#software-prerequisites)
+- [Technology Prerequisites](#technology-prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
 
@@ -24,7 +24,7 @@ This project is an Eclipse Rich Client Platform (RCP) and spring boot applicatio
 - **Optional Graph Visualization**: Displays the relationship between unit weight and water content.
 - **API Access**: Rest end points to get sample data and statistics.
 
-##Software Prerequisites
+## Software Prerequisites {#software-prerequisites}
 
 1. **Softwares Required:**:
 - **Git**: [Download and install Git](https://git-scm.com/downloads)
@@ -32,7 +32,7 @@ This project is an Eclipse Rich Client Platform (RCP) and spring boot applicatio
 - **Eclipse IDE for RCP and RAP Developers**: [Download Eclipse IDE](https://www.eclipse.org/downloads/packages/)
 - **Postman**: [https://www.postman.com/downloads/]
 
-## Technology Prerequisites 
+## Technology Prerequisites {#technology-prerequisites}
 - **Java** : It is used as primary language for the program.
 - **Eclipse** : Eclipse RCP which is used primarily for UI creation.
 - **Spring Boot** : It is used to create web application and container so rest end points can be accessed.
