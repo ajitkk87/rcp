@@ -1,7 +1,5 @@
 package offshoregroundsampling;
 
-import java.util.Arrays;
-
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.springframework.boot.SpringApplication;
@@ -34,7 +32,6 @@ public class Activator implements BundleActivator {
 		 // Close Spring context
         if (springContext != null) {
             springContext.close();
-            System.out.println("Spring context closed");
         }
 		Activator.context = null;
 	}
