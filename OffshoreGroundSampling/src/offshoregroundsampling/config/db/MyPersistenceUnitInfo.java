@@ -3,6 +3,11 @@ package offshoregroundsampling.config.db;
 import java.net.URL;
 import java.util.List;
 import java.util.Properties;
+
+import javax.sql.DataSource;
+
+import org.hibernate.jpa.HibernatePersistenceProvider;
+
 import jakarta.persistence.SharedCacheMode;
 import jakarta.persistence.ValidationMode;
 import jakarta.persistence.spi.ClassTransformer;
@@ -10,9 +15,6 @@ import jakarta.persistence.spi.PersistenceUnitInfo;
 import jakarta.persistence.spi.PersistenceUnitTransactionType;
 import offshoregroundsampling.constants.Constants;
 import offshoregroundsampling.model.Sample;
-
-import javax.sql.DataSource;
-import org.hibernate.jpa.HibernatePersistenceProvider;
 
 public class MyPersistenceUnitInfo implements PersistenceUnitInfo {
 
@@ -104,18 +106,18 @@ public class MyPersistenceUnitInfo implements PersistenceUnitInfo {
     }
 
 	@Override
-	public List<String> getQualifierAnnotationNames() {
-		return null;
-	}
-
-	@Override
-	public String getScopeAnnotationName() {
-		return null;
-	}
-	
-	@Override
 	@Deprecated
     public PersistenceUnitTransactionType getTransactionType() {
         return PersistenceUnitTransactionType.RESOURCE_LOCAL;
     }
+
+	public List<String> getQualifierAnnotationNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getScopeAnnotationName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
